@@ -117,7 +117,7 @@ const httpServices: Product[] = [
     provider: "docker",
     description: "Панель управления Traefik reverse proxy. Мониторинг маршрутов, сервисов, middleware и метрик прокси-сервера.",
     url: "http://traefik.de-infra.servehttp.com",
-    icon: "🔧"
+    icon: ":🔧"
   }
 ];
 
@@ -151,6 +151,16 @@ const databases: Database[] = [
     protocol: "TCP (PostgreSQL)",
     additionalInfo: "База данных: postgres",
     icon: "🗄️"
+  },
+  {
+    name: "Gitea-SSH",
+    provider: "docker",
+    description: "Лёгкий и быстрый сервис управления Git-репозиториями. Альтернатива GitHub для внутренней разработки с поддержкой CI/CD.",
+    host: "gitea-ssh.de-infra.servehttp.com",
+    port: "5432",
+    protocol: "TCP (PostgreSQL)",
+    additionalInfo: "База данных: postgres",
+    icon: "🔐"
   }
 ];
 
@@ -230,13 +240,13 @@ const Index = () => {
                     <div className="text-muted-foreground text-xs">{db.additionalInfo}</div>
                   )}
                 </div>
-                <a
+                {/* <a
                   href={`tcp://${db.host}:${db.port}`}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold hover:opacity-90 transition-opacity"
                 >
                   <span>🔗</span>
                   TCP подключение
-                </a>
+                </a> */}
               </Card>
             ))}
           </div>
