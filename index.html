@@ -141,7 +141,11 @@
     .db-card h3::before {
       content: "🗄️";
     }
-    
+
+    .ssh-card h3::before {
+      content: "🔄";
+    }
+
     .db-info {
       background: rgba(255,255,255,0.7);
       padding: 10px;
@@ -327,7 +331,7 @@
     
     <!-- TCP Сервисы (Базы данных) -->
     <div class="section">
-      <h2>🗄️ Базы данных (TCP)</h2>
+      <h2>🔌 Иные подключения (TCP/SSH)</h2>
       <div class="product-grid">
         
         <div class="product-card db-card">
@@ -375,7 +379,7 @@
           </div>
         </div>
 
-        <div class="product-card db-card">
+        <div class="product-card ssh-card">
           <h3>Gitea-SSH</h3>
           <p class="provider">Provider: docker</p>
           <p>Лёгкий и быстрый сервис управления Git-репозиториями. Альтернатива GitHub для внутренней разработки с поддержкой CI/CD.</p>
