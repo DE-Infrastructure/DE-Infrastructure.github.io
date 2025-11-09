@@ -137,19 +137,13 @@
       background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
       border-left: 5px solid #e17055;
     }
-    
-    .db-card h3::before {
-      content: "🗄️";
-    }
+
 
     .ssh-card {
       background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
       border-left: 5px solid #e17055;
     }
 
-    .ssh-card h3::before {
-      content: "🔄";
-    }
 
     .db-info {
       background: rgba(255,255,255,0.7);
@@ -224,24 +218,6 @@
         </div>
         
         <div class="product-card">
-          <h3>Grafana</h3>
-          <p class="provider">Provider: docker</p>
-          <p>Платформа для визуализации метрик и создания дашбордов. Интеграция с Prometheus, InfluxDB и другими источниками данных.</p>
-          <div class="links">
-            <a href="http://grafana.de-infra.servehttp.com" target="_blank">Открыть Grafana</a>
-          </div>
-        </div>
-        
-        <div class="product-card">
-          <h3>Jenkins</h3>
-          <p class="provider">Provider: file</p>
-          <p>Сервер непрерывной интеграции и доставки (CI/CD). Автоматизируйте сборку, тестирование и деплой приложений.</p>
-          <div class="links">
-            <a href="http://jenkins.de-infra.servehttp.com" target="_blank">Открыть Jenkins</a>
-          </div>
-        </div>
-        
-        <div class="product-card">
           <h3>Jupyter</h3>
           <p class="provider">Provider: docker</p>
           <p>Интерактивная среда для анализа данных, машинного обучения и научных вычислений. Поддержка Python, R, Julia и других языков.</p>
@@ -269,38 +245,11 @@
         </div>
         
         <div class="product-card">
-          <h3>Node Exporter</h3>
-          <p class="provider">Provider: file</p>
-          <p>Экспортер метрик системы для Prometheus. Мониторинг CPU, памяти, дисков и сетевых интерфейсов серверов.</p>
-          <div class="links">
-            <a href="http://node-exporter.de-infra.servehttp.com" target="_blank">Открыть Node Exporter</a>
-          </div>
-        </div>
-        
-        <div class="product-card">
           <h3>OpenProject</h3>
           <p class="provider">Provider: docker</p>
           <p>Платформа для управления проектами с поддержкой Agile, Scrum и Kanban. Планируйте задачи, треккайте прогресс и организуйте команду.</p>
           <div class="links">
             <a href="http://openproject.de-infra.servehttp.com" target="_blank">Открыть OpenProject</a>
-          </div>
-        </div>
-        
-        <div class="product-card">
-          <h3>Portainer</h3>
-          <p class="provider">Provider: docker</p>
-          <p>Графический интерфейс для управления Docker контейнерами, образами, сетями и томами. Упрощает DevOps операции.</p>
-          <div class="links">
-            <a href="http://portainer.de-infra.servehttp.com" target="_blank">Открыть Portainer</a>
-          </div>
-        </div>
-        
-        <div class="product-card">
-          <h3>Prometheus</h3>
-          <p class="provider">Provider: docker</p>
-          <p>Система мониторинга и алертинга с мощным языком запросов PromQL. Собирайте метрики и настраивайте оповещения.</p>
-          <div class="links">
-            <a href="http://prometheus.de-infra.servehttp.com" target="_blank">Открыть Prometheus</a>
           </div>
         </div>
         
@@ -319,15 +268,6 @@
           <p>Рабочий узел Apache Spark. Выполняет задачи распределённых вычислений под управлением Spark Master.</p>
           <div class="links">
             <a href="http://spark-worker.de-infra.servehttp.com" target="_blank">Открыть Spark Worker</a>
-          </div>
-        </div>
-        
-        <div class="product-card">
-          <h3>Traefik Dashboard</h3>
-          <p class="provider">Provider: docker</p>
-          <p>Панель управления Traefik reverse proxy. Мониторинг маршрутов, сервисов, middleware и метрик прокси-сервера.</p>
-          <div class="links">
-            <a href="http://traefik.de-infra.servehttp.com" target="_blank">Открыть Traefik</a>
           </div>
         </div>
         
@@ -384,6 +324,7 @@
           </div>
         </div>
 
+
         <div class="product-card ssh-card">
           <h3>Gitea-SSH</h3>
           <p class="provider">Provider: docker</p>
@@ -400,7 +341,69 @@
         </div>
       </div>
     </div>
-    
+
+    <!-- Администраторы -->
+    <div class="section">
+      <h2>🔧 Администраторы</h2>
+      <div class="product-grid">
+
+        <div class="product-card">
+          <h3>Grafana</h3>
+          <p class="provider">Provider: docker</p>
+          <p>Платформа для визуализации метрик и создания дашбордов. Интеграция с Prometheus, InfluxDB и другими источниками данных.</p>
+          <div class="links">
+            <a href="http://grafana.de-infra.servehttp.com" target="_blank">Открыть Grafana</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <h3>Jenkins</h3>
+          <p class="provider">Provider: file</p>
+          <p>Сервер непрерывной интеграции и доставки (CI/CD). Автоматизируйте сборку, тестирование и деплой приложений.</p>
+          <div class="links">
+            <a href="http://jenkins.de-infra.servehttp.com" target="_blank">Открыть Jenkins</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <h3>Node Exporter</h3>
+          <p class="provider">Provider: file</p>
+          <p>Экспортер метрик системы для Prometheus. Мониторинг CPU, памяти, дисков и сетевых интерфейсов серверов.</p>
+          <div class="links">
+            <a href="http://node-exporter.de-infra.servehttp.com" target="_blank">Открыть Node Exporter</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <h3>Portainer</h3>
+          <p class="provider">Provider: docker</p>
+          <p>Графический интерфейс для управления Docker контейнерами, образами, сетями и томами. Упрощает DevOps операции.</p>
+          <div class="links">
+            <a href="http://portainer.de-infra.servehttp.com" target="_blank">Открыть Portainer</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <h3>Prometheus</h3>
+          <p class="provider">Provider: docker</p>
+          <p>Система мониторинга и алертинга с мощным языком запросов PromQL. Собирайте метрики и настраивайте оповещения.</p>
+          <div class="links">
+            <a href="http://prometheus.de-infra.servehttp.com" target="_blank">Открыть Prometheus</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <h3>Traefik Dashboard</h3>
+          <p class="provider">Provider: docker</p>
+          <p>Панель управления Traefik reverse proxy. Мониторинг маршрутов, сервисов, middleware и метрик прокси-сервера.</p>
+          <div class="links">
+            <a href="http://traefik.de-infra.servehttp.com" target="_blank">Открыть Traefik</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <footer>
       <p>© 2025 DE Infrastructure | Powered by Traefik & Docker</p>
     </footer>
