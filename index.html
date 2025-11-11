@@ -280,42 +280,12 @@
       <div class="product-grid">
         
         <div class="product-card db-card">
-          <h3>ClickHouse</h3>
-          <p class="provider">Provider: docker</p>
-          <p>Колоночная СУБД для онлайн аналитической обработки (OLAP). Высокая производительность на больших объёмах данных.</p>
-          <div class="db-info">
-            <strong>Хост:</strong> clickhouse.de-infra.servehttp.com<br>
-            <strong>Порт:</strong> <span class="port">9000</span><br>
-            <strong>Протокол:</strong> TCP (native)<br>
-            <strong>HTTP порт:</strong> <span class="port">8123</span>
-          </div>
-          <div class="links">
-            <a href="tcp://clickhouse.de-infra.servehttp.com:9000">TCP подключение</a>
-          </div>
-        </div>
-        
-        <div class="product-card db-card">
-          <h3>Greenplum</h3>
-          <p class="provider">Provider: docker</p>
-          <p>Массивно-параллельная СУБД на базе PostgreSQL. Для аналитики и хранилищ данных (Data Warehouse).</p>
-          <div class="db-info">
-            <strong>Хост:</strong> greenplum.de-infra.servehttp.com<br>
-            <strong>Порт:</strong> <span class="port">5432</span><br>
-            <strong>Протокол:</strong> TCP (PostgreSQL)<br>
-            <strong>Пользователь:</strong> gpadmin
-          </div>
-          <div class="links">
-            <a href="tcp://greenplum.de-infra.servehttp.com:5432">TCP подключение</a>
-          </div>
-        </div>
-        
-        <div class="product-card db-card">
           <h3>PostgreSQL</h3>
           <p class="provider">Provider: docker</p>
           <p>Объектно-реляционная СУБД с поддержкой сложных запросов, транзакций и расширений. Надёжное решение для OLTP.</p>
           <div class="db-info">
             <strong>Хост:</strong> postgres.de-infra.servehttp.com<br>
-            <strong>Порт:</strong> <span class="port">5432</span><br>
+            <strong>Порт:</strong> <span class="port">9002</span><br>
             <strong>Протокол:</strong> TCP (PostgreSQL)<br>
             <strong>База данных:</strong> postgres
           </div>
@@ -324,6 +294,37 @@
           </div>
         </div>
 
+        
+        <div class="product-card db-card">
+          <h3>Greenplum</h3>
+          <p class="provider">Provider: docker</p>
+          <p>Массивно-параллельная СУБД на базе PostgreSQL. Для аналитики и хранилищ данных (Data Warehouse).</p>
+          <div class="db-info">
+            <strong>Хост:</strong> greenplum.de-infra.servehttp.com<br>
+            <strong>Порт:</strong> <span class="port">9003</span><br>
+            <strong>Протокол:</strong> TCP (PostgreSQL)<br>
+            <strong>Пользователь:</strong> gpadmin
+          </div>
+          <div class="links">
+            <a href="tcp://greenplum.de-infra.servehttp.com:5432">TCP подключение</a>
+          </div>
+        </div>
+        
+
+        <div class="product-card db-card">
+          <h3>ClickHouse</h3>
+          <p class="provider">Provider: docker</p>
+          <p>Колоночная СУБД для онлайн аналитической обработки (OLAP). Высокая производительность на больших объёмах данных.</p>
+          <div class="db-info">
+            <strong>Хост:</strong> clickhouse.de-infra.servehttp.com<br>
+            <strong>Порт:</strong> <span class="port">9004</span><br>
+            <strong>Протокол:</strong> TCP (native)<br>
+            <strong>HTTP порт:</strong> <span class="port">8123</span>
+          </div>
+          <div class="links">
+            <a href="tcp://clickhouse.de-infra.servehttp.com:9000">TCP подключение</a>
+          </div>
+        </div>
 
         <div class="product-card ssh-card">
           <h3>Gitea-SSH</h3>
