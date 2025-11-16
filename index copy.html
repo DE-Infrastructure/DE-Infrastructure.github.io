@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DE Infrastructure Dashboard</title>
+<style>
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+  }
+  header h1 {
+    font-size: 38px;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+  header p {
+    font-size: 18px;
+    opacity: 0.9;
+  }
+
+  /* Filters container */
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+  .filters input[type="text"],
+  .filters select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    font-size: 16px;
+    min-width: 240px;
+  }
+
+  /* Section grouping with background */
+  .section {
+    background: #ffffffdd;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-left: 6px solid #667eea;
+  }
+  .section h2 {
+    color: #4a47a3;
+    font-size: 28px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 8px;
+    user-select: none;
+  }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: white;
+    border-radius: 12px;
+    border-left: 8px solid transparent;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+  }
+  .card:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  }
+  .card .title {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .card .description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+  .card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    padding: 3px 9px;
+    border-radius: 100px;
+  }
+  .tag .icon {
+    margin-right: 6px;
+    font-size: 16px;
+  }
+
+  /* Tag colors from data */
+  /* dynamically applied */
+
+  /* Favorite star */
+  .favorite {
+    float: right;
+    font-size: 20px;
+    color: #f5b301;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>DE Infrastructure Dashboard</h1>
+    <p>Фильтр по имени и тэгам с цветным разделением блоков</p>
+  </header>
+
+  <div class="filters">
+    <input type="text" id="nameFilter" placeholder="Фильтр по имени..." />
+    <select id="tagFilter">
+      <option value="">Все тэги</option>
+    </select>
+  </div>
+
+  <div id="cardsContainer"></div>
+</div>
+
+<script>
+const services = [
+  {
+    "id": "029d1bf7-a90b-4bec-b276-9ba437edc6e1",
+    "name": "Jupyter",
+    "description": "Интерактивная среда для анализа данных, машинного обучения и научных вычислений. Поддержка Python, R, Julia и других языков.",
+    "icon": "📓",
+    "category": "Data Science",
+    "provider": "docker",
+    "access_level": "user",
+    "url": "https://jupyter.de-infra.servehttp.com",
+    "is_favorite": true,
+    "tags": [
+        {
+            "id": "big-data",
+            "name": "Big Data",
+            "color": "#7C3AED",
+            "icon": "📊"
+        },
+        {
+            "id": "tools",
+            "name": "Инструменты",
+            "color": "#0891B2",
+            "icon": "🛠️"
+        }
+    ],
+    "status": "online"
+  }
+];
+
+// Собираем все тэги из данных
+const allTagsMap = new Map();
+services.forEach(s => {
+  s.tags.forEach(t => allTagsMap.set(t.id, t));
+});
+const allTags = Array.from(allTagsMap.values());
+
+// Инициализация выпадающего списка тэгов
+const tagFilterSelect = document.getElementById('tagFilter');
+allTags.forEach(tag => {
+  const opt = document.createElement('option');
+  opt.value = tag.id;
+  opt.textContent = `${tag.icon} ${tag.name}`;
+  tagFilterSelect.appendChild(opt);
+});
+
+// Функция отрисовки карточек
+function renderCards() {
+  const container = document.getElementById('cardsContainer');
+  container.innerHTML = '';
+
+  const nameFilterValue = document.getElementById('nameFilter').value.toLowerCase();
+  const tagFilterValue = document.getElementById('tagFilter').value;
+
+  // Фильтрация сервисов
+  const filteredServices = services.filter(s => {
+    const matchName = s.name.toLowerCase().includes(nameFilterValue);
+    const matchTag = !tagFilterValue || s.tags.some(t => t.id === tagFilterValue);
+    return matchName && matchTag;
+  });
+
+  // Группируем сервисы по категориям
+  const groupedByCategory = filteredServices.reduce((acc, svc) => {
+    (acc[svc.category] = acc[svc.category] || []).push(svc);
+    return acc;
+  }, {});
+
+  // Отрисовка по категориям
+  for (const [category, svcs] of Object.entries(groupedByCategory)) {
+    const section = document.createElement('section');
+    section.className = 'section';
+
+    const title = document.createElement('h2');
+    title.textContent = category;
+    section.appendChild(title);
+
+    const cardsDiv = document.createElement('div');
+    cardsDiv.className = 'cards';
+
+    for (const svc of svcs) {
+      const card = document.createElement('a');
+      card.className = 'card';
+      card.href = svc.url;
+      card.target = '_blank';
+      card.style.borderLeftColor = svc.tags.length ? svc.tags[0].color : '#ccc';
+
+      // header with title and favorite star
+      const titleEl = document.createElement('div');
+      titleEl.className = 'title';
+      titleEl.textContent = `${svc.icon} ${svc.name}`;
+      if (svc.is_favorite) {
+        const fav = document.createElement('span');
+        fav.className = 'favorite';
+        fav.title = "Избранное";
+        fav.textContent = '★';
+        titleEl.appendChild(fav);
+      }
+
+      card.appendChild(titleEl);
+
+      const desc = document.createElement('div');
+      desc.className = 'description';
+      desc.textContent = svc.description;
+      card.appendChild(desc);
+
+      // tags
+      const tagsDiv = document.createElement('div');
+      tagsDiv.className = 'tags';
+      svc.tags.forEach(tag => {
+        const tagEl = document.createElement('span');
+        tagEl.className = 'tag';
+        tagEl.style.backgroundColor = tag.color;
+        tagEl.innerHTML = `<span class="icon">${tag.icon}</span>${tag.name}`;
+        tagsDiv.appendChild(tagEl);
+      });
+      card.appendChild(tagsDiv);
+
+      cardsDiv.appendChild(card);
+    }
+
+    container.appendChild(section);
+    section.appendChild(cardsDiv);
+  }
+}
+
+// Подписка на события фильтров
+document.getElementById('nameFilter').addEventListener('input', renderCards);
+document.getElementById('tagFilter').addEventListener('change', renderCards);
+
+// Первоначальный рендер
+renderCards();
+</script>
+</body>
+</html>
