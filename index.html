@@ -377,43 +377,38 @@
 
     // Create card HTML
     function createCard(service, type) {
-      const cardClass = type === 'admin' ? 'admin-card' : (type === 'db' ? 'db-card' : '');
-      const tags = (service.tags || []).map(tag => 
-        `<span class="tag" style="background-color: ${tag.color || '#667eea'}">
-          <span class="tag-icon">${tag.icon || '🏷️'}</span>
-          ${escapeHtml(tag.name)}
-        </span>`
-      ).join('');
-
-      const statusBadge = service.status ? 
-        `<span class="status-badge status-${service.status}">${service.status === 'online' ? '🟢 Online' : '🔴 Offline'}</span>` : '';
-
-      const favoriteIcon = service.is_favorite ? '<span class="favorite-star">⭐</span>' : '';
-
-      const showLink = service.url && !['database', 'база данных'].some(term => 
-        (service.category || '').toLowerCase().includes(term)
-      );
-
+      const cardClass = type === "admin" ? "admin-card" : type === "db" ? "db-card" : "";
+      const tags = service.tags.map(tag => `
+        <span class="tag" style="background-color: ${tag.color};">
+          ${tag.icon} <span>${escapeHtml(tag.name)}</span>
+        </span>
+      `).join('');
+      
+      // Показывать кнопку и статус только не для "Database"
+      const showLink = service.access_level !== "database" && service.url;
+      const statusBadge = service.access_level !== "database" && service.status
+        ? `<span class="status-badge status-${service.status}">
+            ${service.status === "online" ? "🟢 Online" : "🔴 Offline"}
+          </span>`
+        : "";
+        
       return `
         <div class="card ${cardClass}">
           <div class="card-header">
             <div class="card-title">
-              <span class="card-icon">${service.icon || '📦'}</span>
-              ${escapeHtml(service.name || 'Без имени')}
+              <span class="card-icon">${service.icon ?? ""}</span> ${escapeHtml(service.name)}
             </div>
-            ${favoriteIcon}
           </div>
-          <div class="card-description">
-            ${escapeHtml(service.description || 'Нет описания')}
-          </div>
-          ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+          <div class="card-description">${escapeHtml(service.description ?? "")}</div>
+          ${tags ? `<div class="card-tags">${tags}</div>` : ""}
           <div class="card-footer">
-            ${showLink ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>` : '<span></span>'}
+            ${showLink ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>` : ""}
             ${statusBadge}
           </div>
         </div>
       `;
     }
+    
 
     // Render services
     function renderServices() {
