@@ -429,8 +429,11 @@
         `;
       }
     
-      const showLink = !isDatabase && service.url
-        ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>` : "";
+      // Внутри createCard()
+      const showLink = !isDatabase && service.documentation_url
+        ? `<a href="${service.documentation_url}" class="card-link docs-link" target="_blank" onclick="event.stopPropagation()">Открыть документацию →</a>`
+        : "";
+      ;
       const statusBadge = !isDatabase && service.status
         ? `<span class="status-badge status-${service.status}">
             ${service.status === "online" ? "🟢 Online" : "🔴 Offline"}
