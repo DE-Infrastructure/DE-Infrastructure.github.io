@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="images.ico">
   <title>DE Infrastructure Dashboard</title>
   <style>
     * {
@@ -377,33 +376,6 @@
 
 
     // Create card HTML
-    function parseDbUrl(urlString) {
-      // Если пусто — ничего не выводим
-      if (!urlString) return {};
-    
-      try {
-        // Убираем протокол для удобства
-        const url = new URL(urlString);
-      
-        // Host с портом всегда есть через url.host
-        let host = url.hostname;
-        let port = url.port || ""; // если порт явно указан
-        let dbName = "";
-      
-        // Получаем имя БД из pathname, если есть (например /my_personal_db)
-        if (url.pathname && url.pathname.length > 1) {
-          // Убираем возможный ведущий слэш
-          dbName = url.pathname.replace(/^\//, '');
-        }
-      
-        return { host, port, dbName };
-      } catch (e) {
-        // Если URL не в правильном формате, выводим строку целиком
-        return { host: urlString };
-      }
-    }
-
-    // --- ваш функц. создания карточки ---
     function createCard(service, type) {
       const cardClass = type === "admin" ? "admin-card" : type === "db" ? "db-card" : "";
       const tags = service.tags.map(tag => `
@@ -412,25 +384,9 @@
         </span>
       `).join('');
       
-      const isDatabase = service.access_level && service.access_level.toLowerCase() === "database";
-      let dbDetails = "";
-      
-      if (isDatabase && service.url) {
-        const parsed = parseDbUrl(service.url);
-        dbDetails = `
-          <div class="db-details">
-            <strong>Хост:</strong> ${escapeHtml(parsed.host ?? "—")}
-            ${parsed.port ? `<br><strong>Порт:</strong> ${escapeHtml(parsed.port)}` : ""}
-            ${parsed.dbName ? `<br><strong>База данных:</strong> ${escapeHtml(parsed.dbName)}` : ""}
-          </div>
-        `;
-      }
-    
-      // Кнопка и статус только если не Database
-      const showLink = !isDatabase && service.url
-        ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>`
-        : "";
-      const statusBadge = !isDatabase && service.status
+      // Показывать кнопку и статус только не для "Database"
+      const showLink = service.access_level !== "database" && service.url;
+      const statusBadge = service.access_level !== "database" && service.status
         ? `<span class="status-badge status-${service.status}">
             ${service.status === "online" ? "🟢 Online" : "🔴 Offline"}
           </span>`
@@ -445,15 +401,14 @@
           </div>
           <div class="card-description">${escapeHtml(service.description ?? "")}</div>
           ${tags ? `<div class="card-tags">${tags}</div>` : ""}
-          ${dbDetails}
           <div class="card-footer">
-            ${showLink}
+            ${showLink ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>` : ""}
             ${statusBadge}
           </div>
         </div>
       `;
     }
-
+    
 
     // Render services
     function renderServices() {
