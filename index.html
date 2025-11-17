@@ -417,37 +417,56 @@
       `).join('');
       
       const isDatabase = service.access_level && service.access_level.toLowerCase() === "database";
-      const dbDetails = isDatabase && service.url ? `<div class="db-details"><strong>URL для подключения:</strong> ${escapeHtml(service.url)}</div>` : "";
-      
-      const showLink = !isDatabase && service.url;
+      let dbDetails = "";
+      if (isDatabase && service.url) {
+        const parsed = parseDbUrl(service.url);
+        dbDetails = `
+          <div class="db-details">
+            <strong>Хост:</strong> ${escapeHtml(parsed.host ?? "—")}
+            ${parsed.port ? `<br><strong>Порт:</strong> ${escapeHtml(parsed.port)}` : ""}
+            ${parsed.dbName ? `<br><strong>База данных:</strong> ${escapeHtml(parsed.dbName)}` : ""}
+          </div>
+        `;
+      }
+    
+      const showLink = !isDatabase && service.url
+        ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>` : "";
       const statusBadge = !isDatabase && service.status
         ? `<span class="status-badge status-${service.status}">
             ${service.status === "online" ? "🟢 Online" : "🔴 Offline"}
-          </span>`
-        : "";
+          </span>` : "";
         
-      // Оборачиваем иконку в ссылку, если есть URL
-      const iconHtml = service.url
-        ? `<a href="${service.url}" target="_blank" class="card-icon-link">${service.icon ?? ""}</a>`
-        : `<span class="card-icon">${service.icon ?? ""}</span>`;
+      // --- основная вложенность ---
+      // сбоку у вас цикл вставки карточек: туда добавьте обработчик
+      // <div class="card ...", data-url="...">...</div>
         
-      return `
-        <div class="card ${cardClass}">
+      // Весь HTML:
+      const cardHtml = `
+        <div class="card ${cardClass}" ${service.url ? `data-url="${service.url}"` : ""}>
           <div class="card-header">
             <div class="card-title">
-              ${iconHtml} ${escapeHtml(service.name)}
+              <span class="card-icon">${service.icon ?? ""}</span> ${escapeHtml(service.name)}
             </div>
           </div>
           <div class="card-description">${escapeHtml(service.description ?? "")}</div>
           ${tags ? `<div class="card-tags">${tags}</div>` : ""}
           ${dbDetails}
           <div class="card-footer">
-            ${showLink ? `<a href="${service.url}" class="card-link" target="_blank">Открыть →</a>` : ""}
+            ${showLink}
             ${statusBadge}
           </div>
         </div>
       `;
+      return cardHtml;
     }
+
+    document.addEventListener("click", function(event){
+      const card = event.target.closest(".card[data-url]");
+      if (card) {
+        const url = card.getAttribute("data-url");
+        if (url) window.open(url, "_blank");
+      }
+    });
     
 
     // Render services
