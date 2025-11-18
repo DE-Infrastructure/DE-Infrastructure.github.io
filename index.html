@@ -430,7 +430,7 @@
       }
     
       // Внутри createCard()
-      const showLink = !isDatabase && service.documentation_url
+      const showLink = service.documentation_url
         ? `<a href="${service.documentation_url}" class="card-link docs-link" target="_blank" onclick="event.stopPropagation()">Открыть документацию →</a>`
         : "";
       ;
