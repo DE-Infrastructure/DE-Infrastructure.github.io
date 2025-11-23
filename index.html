@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images.ico">
+  <title>DE Infrastructure Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+      padding: 30px 0;
+    }
+    header h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    /* Filters Block */
+    .filters-block {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .filters-block input[type="text"],
+    .filters-block select {
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      min-width: 250px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    .filters-block input[type="text"]:focus,
+    .filters-block select:focus {
+      outline: none;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+      border-color: #667eea;
+    }
+
+    /* Section Blocks with Color Separation */
+    .section {
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border-left: 6px solid #667eea;
+    }
+    .section.admin-section {
+      border-left-color: #e74c3c;
+    }
+    .section.db-section {
+      border-left-color: #27ae60;
+    }
+    .section h2 {
+      color: #4a47a3;
+      margin-bottom: 20px;
+      font-size: 28px;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section.admin-section h2 {
+      border-bottom-color: #e74c3c;
+      color: #c0392b;
+    }
+    .section.db-section h2 {
+      border-bottom-color: #27ae60;
+      color: #229954;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border-left: 5px solid #667eea;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .card.admin-card {
+      border-left-color: #e74c3c;
+      background: linear-gradient(135deg, #fef5f5 0%, #f8d7da 100%);
+    }
+    .card.db-card {
+      border-left-color: #27ae60;
+      background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-icon {
+      font-size: 28px;
+    }
+    .favorite-star {
+      font-size: 20px;
+      color: #f39c12;
+    }
+    .card-description {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      gap: 5px;
+    }
+    .tag-icon {
+      font-size: 14px;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .card-link {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    .card-link:hover {
+      color: #4a47a3;
+      text-decoration: underline;
+    }
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-online {
+      background: #d4edda;
+      color: #155724;
+    }
+    .status-offline {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #7f8c8d;
+      font-size: 16px;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: white;
+      font-size: 20px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+      header h1 {
+        font-size: 32px;
+      }
+      .filters-block {
+        flex-direction: column;
+      }
+      .filters-block input[type="text"],
+      .filters-block select {
+        min-width: 100%;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🚀 DE Infrastructure Dashboard</h1>
+      <p>Управление сервисами и инфраструктурой</p>
+    </header>
+
+    <!-- Filters Block -->
+    <div class="filters-block">
+      <input type="text" id="nameFilter" placeholder="🔍 Поиск по имени сервиса..." />
+      <select id="tagFilter">
+        <option value="">🏷️ Все тэги</option>
+      </select>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading">⏳ Загрузка сервисов...</div>
+
+    <!-- Database Section -->
+    <div id="dbSection" class="section db-section" style="display:none;">
+      <h2>🗄️ Database</h2>
+      <div id="dbCards" class="cards-grid"></div>
+    </div>
+
+    <!-- User Services Section -->
+    <div id="userSection" class="section" style="display:none;">
+      <h2>👥 Data Tools</h2>
+      <div id="userCards" class="cards-grid"></div>
+    </div>
+
+
+
+
+    <!-- Admin Services Section -->
+    <div id="adminSection" class="section admin-section" style="display:none;">
+      <h2>🔐 Admin Service</h2>
+      <div id="adminCards" class="cards-grid"></div>
+    </div>
+
+
+
+  <script>
+    const API_URL = 'https://de-infra-api.de-infra.servehttp.com/api';
+    let allServices = [];
+    let allTags = new Map();
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    // Load services from API
+    async function loadServices() {
+      try {
+        const response = await fetch(`${API_URL}/services?skip=0&limit=100`);
+        const data = await response.json();
+        allServices = Array.isArray(data) ? data : (data.services || []);
+        
+        // Extract all unique tags
+        allServices.forEach(service => {
+          if (service.tags && Array.isArray(service.tags)) {
+            service.tags.forEach(tag => {
+              if (!allTags.has(tag.id)) {
+                allTags.set(tag.id, tag);
+              }
+            });
+          }
+        });
+
+        populateTagFilter();
+        renderServices();
+        document.getElementById('loading').style.display = 'none';
+      } catch (error) {
+        console.error('Error loading services:', error);
+        document.getElementById('loading').innerHTML = '❌ Ошибка загрузки сервисов';
+      }
+    }
+
+    // Populate tag filter dropdown
+    function populateTagFilter() {
+      const tagFilter = document.getElementById('tagFilter');
+      allTags.forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag.id;
+        option.textContent = `${tag.icon || '🏷️'} ${tag.name}`;
+        tagFilter.appendChild(option);
+      });
+    }
+
+    // Filter services based on name and tag
+    function filterServices() {
+      const nameQuery = document.getElementById('nameFilter').value.toLowerCase().trim();
+      const selectedTag = document.getElementById('tagFilter').value;
+
+      return allServices.filter(service => {
+        const matchesName = !nameQuery || 
+          (service.name && service.name.toLowerCase().includes(nameQuery)) ||
+          (service.description && service.description.toLowerCase().includes(nameQuery));
+        
+        const matchesTag = !selectedTag || 
+          (service.tags && service.tags.some(tag => tag.id === selectedTag));
+
+        return matchesName && matchesTag;
+      });
+    }
+
+    function groupServices(services) {
+      const user = [];
+      const admin = [];
+      const db = [];
+
+      services.forEach(service => {
+        switch (service.access_level) {
+          case "admin":
+            admin.push(service);
+            break;
+          case "database":
+            db.push(service);
+            break;
+          case "user":
+          default:
+            user.push(service);
+        }
+      });
+
+      return { user, admin, db };
+    }
+
+
+    // Create card HTML
+    function parseDbUrl(urlString) {
+      // Если пусто — ничего не выводим
+      if (!urlString) return {};
+    
+      try {
+        // Убираем протокол для удобства
+        const url = new URL(urlString);
+      
+        // Host с портом всегда есть через url.host
+        let host = url.hostname;
+        let port = url.port || ""; // если порт явно указан
+        let dbName = "";
+      
+        // Получаем имя БД из pathname, если есть (например /my_personal_db)
+        if (url.pathname && url.pathname.length > 1) {
+          // Убираем возможный ведущий слэш
+          dbName = url.pathname.replace(/^\//, '');
+        }
+      
+        return { host, port, dbName };
+      } catch (e) {
+        // Если URL не в правильном формате, выводим строку целиком
+        return { host: urlString };
+      }
+    }
+
+    // --- ваш функц. создания карточки ---
+    function createCard(service, type) {
+      const cardClass = type === "admin" ? "admin-card" : type === "db" ? "db-card" : "";
+      const tags = service.tags.map(tag => `
+        <span class="tag" style="background-color: ${tag.color};">
+          ${tag.icon} <span>${escapeHtml(tag.name)}</span>
+        </span>
+      `).join('');
+      
+      const isDatabase = service.access_level && service.access_level.toLowerCase() === "database";
+      let dbDetails = "";
+      if (isDatabase && service.url) {
+        const parsed = parseDbUrl(service.url);
+        dbDetails = `
+          <div class="db-details">
+            <strong>Хост:</strong> ${escapeHtml(parsed.host ?? "—")}
+            ${parsed.port ? `<br><strong>Порт:</strong> ${escapeHtml(parsed.port)}` : ""}
+            ${parsed.dbName ? `<br><strong>База данных:</strong> ${escapeHtml(parsed.dbName)}` : ""}
+          </div>
+        `;
+      }
+    
+      // Внутри createCard()
+      const showLink = service.documentation_url
+        ? `<a href="${service.documentation_url}" class="card-link docs-link" target="_blank" onclick="event.stopPropagation()">Открыть документацию →</a>`
+        : "";
+      ;
+      const statusBadge = !isDatabase && service.status
+        ? `<span class="status-badge status-${service.status}">
+            ${service.status === "online" ? "🟢 Online" : "🔴 Offline"}
+          </span>` : "";
+        
+      // --- основная вложенность ---
+      // сбоку у вас цикл вставки карточек: туда добавьте обработчик
+      // <div class="card ...", data-url="...">...</div>
+        
+      // Весь HTML:
+      const cardHtml = `
+        <div class="card ${cardClass}" ${service.url ? `data-url="${service.url}"` : ""}>
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">${service.icon ?? ""}</span> ${escapeHtml(service.name)}
+            </div>
+          </div>
+          <div class="card-description">${escapeHtml(service.description ?? "")}</div>
+          ${tags ? `<div class="card-tags">${tags}</div>` : ""}
+          ${dbDetails}
+          <div class="card-footer">
+            ${showLink}
+            ${statusBadge}
+          </div>
+        </div>
+      `;
+      return cardHtml;
+    }
+
+    document.addEventListener("click", function(event){
+      const card = event.target.closest(".card[data-url]");
+      if (card) {
+        const url = card.getAttribute("data-url");
+        if (url) window.open(url, "_blank");
+      }
+    });
+
+
+    // Render services
+    function renderServices() {
+      const filtered = filterServices();
+      const { user, admin, db } = groupServices(filtered);
+
+      // User section
+      const userSection = document.getElementById('userSection');
+      const userCards = document.getElementById('userCards');
+      if (user.length > 0) {
+        userSection.style.display = 'block';
+        userCards.innerHTML = user.map(s => createCard(s, 'user')).join('');
+      } else {
+        userSection.style.display = 'none';
+      }
+
+      // Admin section
+      const adminSection = document.getElementById('adminSection');
+      const adminCards = document.getElementById('adminCards');
+      if (admin.length > 0) {
+        adminSection.style.display = 'block';
+        adminCards.innerHTML = admin.map(s => createCard(s, 'admin')).join('');
+      } else {
+        adminSection.style.display = 'none';
+      }
+
+      // Database section
+      const dbSection = document.getElementById('dbSection');
+      const dbCards = document.getElementById('dbCards');
+      if (db.length > 0) {
+        dbSection.style.display = 'block';
+        dbCards.innerHTML = db.map(s => createCard(s, 'db')).join('');
+      } else {
+        dbSection.style.display = 'none';
+      }
+
+      // Show empty state if no results
+      if (user.length === 0 && admin.length === 0 && db.length === 0) {
+        userSection.style.display = 'block';
+        userCards.innerHTML = '<div class="empty-state">🔍 Ничего не найдено</div>';
+      }
+    }
+
+    // Event listeners
+    document.getElementById('nameFilter').addEventListener('input', renderServices);
+    document.getElementById('tagFilter').addEventListener('change', renderServices);
+
+    // Load services on page load
+    loadServices();
+  </script>
+</body>
+</html>
