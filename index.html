@@ -422,9 +422,9 @@
         const parsed = parseDbUrl(service.url);
         dbDetails = `
           <div class="db-details">
-            <strong>Хост:</strong> ${escapeHtml(parsed.host ?? "—")}
+            <!--<strong>Хост:</strong> ${escapeHtml(parsed.host ?? "—")}
             ${parsed.port ? `<br><strong>Порт:</strong> ${escapeHtml(parsed.port)}` : ""}
-            ${parsed.dbName ? `<br><strong>База данных:</strong> ${escapeHtml(parsed.dbName)}` : ""}
+            ${parsed.dbName ? `<br><strong>База данных:</strong> ${escapeHtml(parsed.dbName)}` : ""}-->
           </div>
         `;
       }
