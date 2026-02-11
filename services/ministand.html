@@ -3,23 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="images.ico">
-  <title>DE Infrastructure Dashboard</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="../images.ico">
+  <title>Mini Stand — Airflow, Gitea, PostgreSQL</title>
+  <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🚀 DE Infrastructure Dashboard</h1>
-      <p>Управление сервисами и инфраструктурой</p>
+      <h1>🧪 Mini Stand</h1>
+      <p>Airflow · Gitea · PostgreSQL</p>
     </header>
 
-    <div class="section" style="text-align:center; margin-bottom: 20px;">
-      <a class="card-link" href="services/ministand.html">🧪 Открыть мини-стенд (Airflow, Gitea, PostgreSQL)</a>
-    </div>
-    
-
-    <!-- Filters Block -->
+    <!-- Фильтры такие же, но без тэгов (можно оставить только поиск по имени) -->
     <div class="filters-block">
       <input type="text" id="nameFilter" placeholder="🔍 Поиск по имени сервиса..." />
       <select id="tagFilter">
@@ -47,8 +42,13 @@
       <h2>🔐 Admin Service</h2>
       <div id="adminCards" class="cards-grid"></div>
     </div>
+
+    <!-- Ссылка назад на основную страницу -->
+    <div class="section" style="text-align:center; margin-top: 10px;">
+      <a href="../index.html" class="card-link">← Вернуться к полному дашборду</a>
+    </div>
   </div>
 
-  <script src="main.js"></script>
+  <script src="./main_ministand.js"></script>
 </body>
 </html>
