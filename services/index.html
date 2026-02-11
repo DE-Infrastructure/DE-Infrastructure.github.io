@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Инфраструктурные сервисы</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Подключи те же стили, что и в текущем index.html -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header__left">
+        <h1 class="header__title">Инфраструктурные сервисы</h1>
+        <p class="header__subtitle">Airflow · Gitea · PostgreSQL</p>
+      </div>
+      <div class="header__right">
+        <!-- Ссылка назад на основную страницу -->
+        <a href="index.html" class="header__link">← На главную</a>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Панель тегов как на главной (можешь удалить, если не нужна) -->
+      <section class="tags">
+        <h2 class="tags__title">🏷️ Тэги</h2>
+        <div class="tags__list">
+          <button class="tag tag--active" data-tag="all">Все</button>
+          <button class="tag" data-tag="airflow">Airflow</button>
+          <button class="tag" data-tag="gitea">Gitea</button>
+          <button class="tag" data-tag="postgres">PostgreSQL</button>
+        </div>
+      </section>
+
+      <!-- Карточки сервисов -->
+      <section class="services">
+        <h2 class="services__title">Сервисы</h2>
+        <div class="services__grid">
+
+          <!-- Airflow -->
+          <article class="service-card" data-tags="airflow">
+            <header class="service-card__header">
+              <h3 class="service-card__title">Apache Airflow</h3>
+              <span class="service-card__badge service-card__badge--data">
+                Data Tools
+              </span>
+            </header>
+            <p class="service-card__description">
+              Оркестрация ETL и других задач. Подходит для демонстрации пайплайнов,
+              DAG’ов и интеграций с базами данных.
+            </p>
+            <ul class="service-card__meta">
+              <li><strong>URL:</strong> <a href="http://airflow.local" target="_blank">http://airflow.local</a></li>
+              <li><strong>UI:</strong> Web UI с мониторингом DAG’ов</li>
+              <li><strong>Тип:</strong> Планировщик и оркестратор задач</li>
+            </ul>
+          </article>
+
+          <!-- Gitea -->
+          <article class="service-card" data-tags="gitea">
+            <header class="service-card__header">
+              <h3 class="service-card__title">Gitea</h3>
+              <span class="service-card__badge service-card__badge--admin">
+                Admin Service
+              </span>
+            </header>
+            <p class="service-card__description">
+              Лёгкий Git-сервер с веб-интерфейсом, задачами, вики и CI-интеграциями.
+              Удобен для учебных репозиториев и личных проектов.
+            </p>
+            <ul class="service-card__meta">
+              <li><strong>URL:</strong> <a href="http://gitea.local" target="_blank">http://gitea.local</a></li>
+              <li><strong>Регистрация:</strong> Через UI или по приглашению</li>
+              <li><strong>Роль:</strong> Хранилище кода и управление проектами</li>
+            </ul>
+          </article>
+
+          <!-- PostgreSQL -->
+          <article class="service-card" data-tags="postgres">
+            <header class="service-card__header">
+              <h3 class="service-card__title">PostgreSQL</h3>
+              <span class="service-card__badge service-card__badge--db">
+                Database
+              </span>
+            </header>
+            <p class="service-card__description">
+              Основная реляционная база данных для проектов и практики SQL.
+              Подходит для демонстрации схем, индексов и запросов.
+            </p>
+            <ul class="service-card__meta">
+              <li><strong>Хост:</strong> postgres.local</li>
+              <li><strong>Порт:</strong> 5432</li>
+              <li><strong>По умолчанию:</strong> db: <code>app</code>, user: <code>app</code></li>
+            </ul>
+          </article>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Подключи тот же JS, что и на главной (фильтрация по тегам и т.п.) -->
+  <script src="main.js"></script>
+</body>
+</html>
+
