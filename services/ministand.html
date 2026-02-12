@@ -6,49 +6,121 @@
   <link rel="icon" type="image/png" href="../images.ico">
   <title>Mini Stand — Airflow, Gitea, PostgreSQL</title>
   <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .card[data-doc-url] {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>🧪 Mini Stand</h1>
-      <p>Airflow · Gitea · PostgreSQL</p>
+      <p>Небольшой стенд: Airflow, Gitea и PostgreSQL</p>
     </header>
-
-    <!-- Фильтры такие же, но без тэгов (можно оставить только поиск по имени) -->
-    <div class="filters-block">
-      <input type="text" id="nameFilter" placeholder="🔍 Поиск по имени сервиса..." />
-      <select id="tagFilter">
-        <option value="">🏷️ Все тэги</option>
-      </select>
-    </div>
-
-    <!-- Loading State -->
-    <div id="loading" class="loading">⏳ Загрузка сервисов...</div>
-
     <!-- Database Section -->
-    <div id="dbSection" class="section db-section" style="display:none;">
+    <div class="section db-section">
       <h2>🗄️ Database</h2>
-      <div id="dbCards" class="cards-grid"></div>
+      <div class="cards-grid">
+
+        <!-- PostgreSQL -->
+        <div class="card db-card"
+             data-doc-url="https://www.notion.so/1-SQL-2fd45190f2698073a1f4c036865806a8">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">🗄️</span> PostgreSQL
+            </div>
+          </div>
+          <div class="card-description">
+            Основная реляционная база данных мини-стенда для приложений и экспериментов.
+          </div>
+          <div class="card-tags">
+            <span class="tag" style="background-color: #27ae60;">
+              🟢 <span>database</span>
+            </span>
+          </div>
+          <div class="card-footer">
+            <a href="http://postgres.local:5432" class="card-link" target="_blank"
+               onclick="event.stopPropagation()">
+              Подключиться к PostgreSQL →
+            </a>
+            <span class="status-badge status-online">🟢 Online</span>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- User Services Section -->
-    <div id="userSection" class="section" style="display:none;">
+    <!-- Data Tools Section -->
+    <div class="section">
       <h2>👥 Data Tools</h2>
-      <div id="userCards" class="cards-grid"></div>
-    </div>
+      <div class="cards-grid">
 
-    <!-- Admin Services Section -->
-    <div id="adminSection" class="section admin-section" style="display:none;">
-      <h2>🔐 Admin Service</h2>
-      <div id="adminCards" class="cards-grid"></div>
-    </div>
+        <!-- Airflow -->
+        <div class="card"
+             data-doc-url="https://www.notion.so/1-Airflow-2fc45190f269819ea1cbec8568556c01">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">🌀</span> Apache Airflow
+            </div>
+          </div>
+          <div class="card-description">
+            Airflow для запуска и мониторинга DAG’ов, оркестрации ETL и прочих задач дата-инженерии.
+          </div>
+          <div class="card-tags">
+            <span class="tag" style="background-color: #3498db;">
+              👥 <span>data-tools</span>
+            </span>
+          </div>
+          <div class="card-footer">
+            <a href="http://airflow.local" class="card-link" target="_blank"
+               onclick="event.stopPropagation()">
+              Открыть Airflow →
+            </a>
+            <span class="status-badge status-online">🟢 Online</span>
+          </div>
+        </div>
 
-    <!-- Ссылка назад на основную страницу -->
-    <div class="section" style="text-align:center; margin-top: 10px;">
-      <a href="../index.html" class="card-link">← Вернуться к полному дашборду</a>
+        <!-- Gitea (тоже Data Tools, та же дока, что и у Airflow) -->
+        <div class="card"
+             data-doc-url="https://www.notion.so/1-Airflow-2fc45190f269819ea1cbec8568556c01">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="card-icon">🐙</span> Gitea
+            </div>
+          </div>
+          <div class="card-description">
+            Лёгкий Git-сервер для хранения кода, ревью и работы с репозиториями мини-стенда.
+          </div>
+          <div class="card-tags">
+            <span class="tag" style="background-color: #e67e22;">
+              👥 <span>data-tools</span>
+            </span>
+          </div>
+          <div class="card-footer">
+            <a href="http://gitea.local" class="card-link" target="_blank"
+               onclick="event.stopPropagation()">
+              Открыть Gitea →
+            </a>
+            <span class="status-badge status-online">🟢 Online</span>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
-  <script src="./main_ministand.js"></script>
+  <script>
+    document.addEventListener('click', function (event) {
+      const card = event.target.closest('.card[data-doc-url]');
+      if (!card) return;
+      const isLink = event.target.closest('a');
+      if (isLink) return;
+      const docUrl = card.getAttribute('data-doc-url');
+      if (docUrl) {
+        window.open(docUrl, '_blank');
+      }
+    });
+  </script>
 </body>
 </html>
